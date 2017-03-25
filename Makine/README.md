@@ -7,3 +7,5 @@ Henüz yazım aşamasındadır.
 Şu [linke](http://htmlpreview.github.io/?https://github.com/uzay00/VeriBilimi/blob/master/Makine/Makine.nb.html)
 tıklayarak içeriği görebilirsiniz.
 
+
+Not: **Sunil Ray**'in makalesi temel makine öğrenme algoritmalarını göstermesi açısından oldukça güzel, fakat herhangi bir veri kullanılmamış. Biraz veri kümesi araştırıp geleceğim. :) 
