@@ -1,8 +1,9 @@
-## Karar Ağaçları ile Veri Madenciliği
+## R ve Python ile Temel Makine Öğrenme Algoritmaları
 
-Bu çalışmada [R ile Veri Madenciliği Uygulamaları](http://www.caglayan.com/urundetay/553674/R-ile-Veri-Madenciligi-Uygulamalari-Dr-Mehmet-Erdal-BALABAN-Dr-Elif-KARTAL-9789754360936#sthash.f7ZrTY0f.dpbs) adlı kitabın
-**Dr.Çiğdem Selçukcan Erol** tarafından yazılmış olan
-**"Sağlık Bilimlerinde R ile Veri Madenciliği"** bölümünden yararlanılmıştır. 
+Bu çalışmada **Sunil Ray** tarafından yazılmış olan [Essentials of Machine Learning Algorithms (with Python and R Codes)](https://www.analyticsvidhya.com/blog/2015/08/common-machine-learning-algorithms/) web sayfasından yararlanılmıştır. 
 
+Henüz yazım aşamasındadır.
 
-R Notebook ile elde edilen html çıktısını görmek için şu [linke](http://htmlpreview.github.io/?https://github.com/uzay00/R_Uygulama/blob/master/Karar/Karar.nb.html) tıklayınız.
+Şu [linke](http://htmlpreview.github.io/?https://github.com/uzay00/VeriBilimi/blob/master/Makine/Makine.nb.html)
+tıklayarak içeriği görebilirsiniz.
+
