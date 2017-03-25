@@ -59,14 +59,36 @@ plot(x_egitim, y_egitim, xlab = "Girdi", ylab = "Çıktı")
 lines(x_egitim, (x_egitim * a + b) , 'l', col = "red")
 ```
 
+R'daki hazır veri kümelerinden biri olan **women** verisini kullanarak, doğrusal regresyon analizine devam edelim. 
 
+```{r}
+dogrusal <-lm(weight ~ height, data=women)
+summary(dogrusal)
+```
 
+Burada `lm(weight ~ height, data=women)` komutunu kullanıyoruz. `~` işareti bağımlı ve bağımsız değişkenleri birbirinden ayırmak için kullanılır.
 
+Değişkenlerimiz şu şekilde,
 
+  *  $b = -87.51667$
+  *  $a = 3.45000$
+  
+Peşinde olduğumuz matematiksel denklem aynı:
+$$y = a  x + b$$
 
+Değerleri yerine yazarsak
 
+$$weight = 3.45 \; height -87.51667$$
 
+```{r}
+a = 3.45
+b = -87.51667
+x = women$height
+y = women$weight
 
+plot(x, y, xlab = "Boy", ylab = "Kilo")
+lines(x, (x * a + b) , 'l', col = "red")
+```
 
 
 
