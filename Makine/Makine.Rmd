@@ -1,0 +1,77 @@
+---
+title: "R ve Python ile Temel Makine Öğrenme Algoritmaları"
+author: Dr. Uzay Çetin
+output: html_notebook
+---
+
+Bu çalışmada **Sunil Ray** tarafından yazılmış olan [Essentials of Machine Learning Algorithms (with Python and R Codes)](https://www.analyticsvidhya.com/blog/2015/08/common-machine-learning-algorithms/) web sayfasından yararlanılmıştır. 
+
+---
+
+**Sunil Ray** Makine öğrenimi için yararlı bir rehber hazırlamış. Elimizden geldiğince onun rehberliğini takip edeceğiz. `R` ve `Python` kullanarak elimizi kirleteceğiz ve belli başlı temel Makine öğrenme algoritmalarını programlayacağız. Fakat bu algoritmaların altında yatan matematik ve istatistiği şimdilik atlayacağız.
+
+Klasik makine öğrenme algoritmaları 3 ayrılmaktadır.  
+
+ 1. **Danışmanlı (Supervised)**: Burada girdi ve çıktı değerleri verilerek en iyileyen parametreler bulunmaya çalışılır.
+     * Örnek: Regresyon, Karar, Rastgele Orman Ağaçları, KNN, Logistic Regresyon
+ 2. **Danışmansız (Unsupervised)**: Burada elimizde çıktı değerleri yoktur. Yalnızca girdi verisine bakarak kesitirim yapılır.
+      * Örnek: Apriori algorithm, K-means
+ 3. **Pekiştirmeli (Reinforcement)**: Algoritma deneme-yanılma yoluyla uygun davranışı öğrenir.
+      * Örnek:  Markov Decision Process
+
+
+---
+
+Şimdi bu algoritmalardan bazılarını görelim
+
+
+
+### 1. Doğrusal Regresyon
+Peşinde olduğumuz matematiksel denklem şudur:
+$$y = a  x + b$$
+Burada
+
+ 1. $y$ : Bağımlı değişken
+ 2. $x$ : Bağımsız değişken
+ 3. $a$ : Eğim
+ 4. $b$ : Kesen
+ 
+```{r}
+# Eğitim verisi
+x_egitim <- c(3.87, 3.61, 4.33, 3.43, 3.81, 3.83, 3.46, 3.76,3.50)
+y_egitim <- c(4.87, 3.93, 6.46, 3.33, 4.38, 4.70, 3.50, 4.50,3.58)
+# Test Verisi
+x_test  <- c(3.58, 4.19, 3.78, 3.71, 3.73, 3.78)
+y_test <- c(3.64, 5.90, 4.43, 4.38, 4.42, 4.25)
+x <- data.frame(x_egitim,y_egitim)
+# Doğrusal regresyon parametreleri
+regresyon <- lm(y_egitim ~ ., data = x)
+summary(regresyon)
+```
+
+
+```{r}
+show(regresyon$coefficients)
+b = regresyon$coefficients['(Intercept)']
+a = regresyon$coefficients['x_egitim']
+
+plot(x_egitim, y_egitim, xlab = "Girdi", ylab = "Çıktı")
+lines(x_egitim, (x_egitim * a + b) , 'l', col = "red")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
