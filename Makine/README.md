@@ -4,6 +4,6 @@ Bu çalışmada **Sunil Ray** tarafından yazılmış olan [Essentials of Machin
 
 Henüz yazım aşamasındadır.
 
-Şu [linke] (http://htmlpreview.github.io/?https://github.com/uzay00/VeriBilimi/blob/master/Makine/Makine.nb.html)
+Şu [linke](http://htmlpreview.github.io/?https://github.com/uzay00/VeriBilimi/blob/master/Makine/Makine.nb.html)
 tıklayarak içeriği görebilirsiniz.
 
