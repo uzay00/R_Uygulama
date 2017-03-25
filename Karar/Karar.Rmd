@@ -1,0 +1,188 @@
+---
+title: "Karar Ağaçları ile Veri Madenciliği"
+author: Uzay Çetin 
+output: html_notebook
+---
+
+Bu çalışmada [R ile Veri Madenciliği Uygulamaları](http://www.caglayan.com/urundetay/553674/R-ile-Veri-Madenciligi-Uygulamalari-Dr-Mehmet-Erdal-BALABAN-Dr-Elif-KARTAL-9789754360936#sthash.f7ZrTY0f.dpbs) adlı kitabın
+**Dr.Çiğdem Selçukcan Erol** tarafından yazılmış olan
+**"Sağlık Bilimlerinde R ile Veri Madenciliği"** bölümünden yararlanılmıştır. 
+
+
+## Veriyi elde etme
+215 hasta ve 6 farklı nitelik içeren sağlık verisetini UCI Machine Learning Repository'den çekiyoruz. 
+
+```{r}
+veri_linki = "https://archive.ics.uci.edu/ml/machine-learning-databases/thyroid-disease/new-thyroid.data"
+
+veri = as.data.frame(read.table(veri_linki, header = FALSE, sep=',', dec = "."))
+
+dimnames(veri)
+```
+
+Satır ve sütunlara isim verelim.
+
+```{r}
+rownames(veri) <- paste0("Hasta", 1:dim(veri)[1])
+colnames(veri) <- c("Diyagnoz", "RT3U", "T4", "T3", "TSH","DTSH")
+veri
+```
+
+Veri setin genel bir bakış
+
+```{r}
+summary(veri)
+```
+
+
+Veri istatistiklerini görelleştirelim.
+
+```{r}
+boxplot(veri)
+```
+
+Veri setinin kutu grafikleri
+
+```{r}
+pairs(~T3+T4+TSH+Diyagnoz, data = veri)
+```
+
+Diyagnoz (Hedef  nitelik) 3 kategoride incelenebilecek yapıdadır. Bu üçe ayırma işlemini yapalım.
+
+```{r}
+hedef_veri <- as.factor(x = veri[[1]])
+# install.packages("plyr")
+library(plyr)
+veri$Diyagnoz <- revalue(hedef_veri,c("1"="otrioid", "2"="hiper", "3"="hipo"))
+summary(veri)
+```
+
+
+Veri'yi, egitim_verisi (%70) ve test_verisi (%30) olarak 2'ye ayıralım. Bunun için **caret** paketinden yararlanalım.
+```{r}
+# install.packages("caret")
+library(caret)
+set.seed(123)
+egitim_indeks <- createDataPartition( y = veri$Diyagnoz, p = 0.7, list = FALSE)
+egitim_verisi <- veri[egitim_indeks,]
+test_verisi <- veri[-egitim_indeks,]
+```
+
+## C4.5 Karar ağaçı ile Sınıflandırma
+C4.5 hem kategorik hem de sürekli verileri sınıflandırabilir. Bunun için RWeka paketi yüklenecektir.
+
+```{r}
+# install.packages("RWeka")
+library(RWeka)
+Siniflandirma_kurallari <-J48(Diyagnoz ~ . , data = egitim_verisi)
+show(Siniflandirma_kurallari)
+```
+```{r}
+summary(Siniflandirma_kurallari)
+```
+
+```{r}
+plot(Siniflandirma_kurallari)
+```
+
+
+Eğitim verisi üzrinde bulduğumuz sınıflandırma kurallarını, test verisinde deneyelim.
+
+```{r}
+kestirim <- predict(Siniflandirma_kurallari, test_verisi, type = "class")
+show(kestirim)
+```
+
+Karışıklık Matrisini oluşturalım.
+
+```{r}
+karisiklik_matrisi <- table(test_verisi$Diyagnoz, kestirim, dnn = c("GERCEK", "TAHMIN"))
+show(karisiklik_matrisi)
+```
+
+
+```{r}
+r <- nrow(karisiklik_matrisi)
+c <- ncol(karisiklik_matrisi)
+kosegen <- (function (x) x + (x-1)*c) (1:r)
+
+dogruluk <- sum(karisiklik_matrisi[kosegen]) / sum(karisiklik_matrisi)
+show(paste("Doğruluk = ", dogruluk))
+```
+
+
+## Rastgele Orman Algoritması ile Sınıflandırma
+
+```{r}
+# install.packages("randomForest")
+library(randomForest)
+orman <- randomForest(Diyagnoz ~., data = egitim_verisi)
+show(orman)
+```
+
+```{r}
+# Test verisi üzerinde tahmin yapalım
+kestirim_orman <- predict(orman, test_verisi, type = "class")
+karisiklik_matrisi_orman <- table(test_verisi$Diyagnoz, kestirim_orman, dnn = c("GERCEK", "TAHMIN"))
+show(karisiklik_matrisi_orman)  
+```
+
+
+```{r}
+dogruluk_orman <- sum(karisiklik_matrisi_orman[kosegen]) / sum(karisiklik_matrisi_orman)
+show(paste("Doğruluk = ", dogruluk_orman))
+```
+
+
+## C4.5 ile Rastgele Orman yöntemlerinin karşılaştırması 
+
+
+```{r}
+karsilastirma <- data.frame(c(dogruluk, dogruluk_orman)) 
+
+colnames(karsilastirma) <- "Dogruluk"
+rownames(karsilastirma) <- c("C4.5", "Orman")
+
+show(karsilastirma)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Bonus: RNotebook üzerinde Python Kodu çalıştıma
+```{python}
+# -*- coding: utf-8 -*-
+# Deneme: Python kodu R Notebook'da çalışıyor.
+report = """{} mumdur:)"""  
+for i in range(1,4):
+  print(report.format(i))  
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
